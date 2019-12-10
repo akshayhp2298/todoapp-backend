@@ -55,7 +55,9 @@ module.exports.validateLogin = async (req, res) => {
   const user = await User.findOne({ email })
   //if use not found return
   if (!user) {
-    res.status(404).send({ done: false, message: "email or password not valid" })
+    res
+      .status(404)
+      .send({ done: false, message: "email or password not valid" })
     return
   }
   //check password
