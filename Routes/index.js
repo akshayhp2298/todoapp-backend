@@ -1,5 +1,5 @@
 const express = require("express")
-const cors = require("cors")
+var cors = require('cors')
 const morgan = require("morgan")
 const user = require("./user")
 const todos = require("./todos")

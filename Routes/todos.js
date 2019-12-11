@@ -1,7 +1,6 @@
 const Express = require("express")
 const route = Express.Router()
 const passport = require("passport")
-const cors = require("cors")
 const passportConf = require("../Auth/passport")
 const {
   createTodo,
