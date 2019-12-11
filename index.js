@@ -1,18 +1,22 @@
 require("dotenv").config()
 const express = require("express")
-const app = express()
-const route = require("./Routes")
 const PORT = process.env.PORT
 const mongoose = require("mongoose")
 const uri = process.env.URI
-console.log("uri",PORT)
+const user = require("./Routes/user")
+const todos = require("./Routes/todos")
+const app = express()
+const routes = [user, todos]
 
 mongoose
   .connect(uri, { useNewUrlParser: true })
   .then(() => console.log("mongodb connected"))
   .catch(err => console.log(err))
 
-app.use(route)
+
+routes.forEach(route => {
+  app.use("/api", route)
+})
 app.listen(PORT, err => {
   if (err) {
     console.log("Error occurred while starting the server")
