@@ -1,11 +1,9 @@
 const mongoose = require("mongoose")
-const bcrypt = require("bcrypt")
 const Schema = mongoose.Schema
-const jwt = require("jsonwebtoken")
 const Joi = require("joi")
 const status = Object.freeze({
   Done: "done",
-  In_progress: "In-progress",
+  In_progress: "in-progress",
   Todo: "todo"
 })
 const todoSchema = new Schema({
@@ -27,6 +25,9 @@ const todoSchema = new Schema({
   path: {
     type: String
   },
+  targetDate: {
+    type: Number
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
@@ -45,13 +46,16 @@ function validateTodos(user) {
       .min(5)
       .max(255)
       .required(),
-    status: Joi.string().valid("todo","done","in-process")
+    status: Joi.string()
+      .valid("todo", "done", "in-process")
       .min(3)
       .max(255)
       .required(),
     path: Joi.string()
       .min(4)
       .max(6)
+      .allow(""),
+    targetDate: Joi.Number().required()
   }
   return Joi.validate(user, Schema)
 }
