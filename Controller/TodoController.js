@@ -40,6 +40,7 @@ module.exports.updateTodo = async (req, res) => {
   if (!_id && !user) {
     res.status(404).send({ done: false, message: "Id not found" })
   }
+  //check ownership of todo
   if (req.body.user != req.user._id) {
     console.log(req.body.user, req.user._id)
     res.status(401).send({ done: false, message: "Unauthorized" })
@@ -65,4 +66,22 @@ module.exports.dateSortedTodos = async (req, res) => {
     targetDate: "ascending"
   })
   res.status(200).send({ done: true, todos })
+}
+
+//delete todo
+module.exports.deleteTodo = async (req, res) => {
+  //get id of todo
+  const id = req.body._id
+  if (!id) {
+    res.status(404).send({ done: false, message: "id not found" })
+  }
+  const todo = await Todos.findById(id)
+  //check ownership of todo
+  if (todo.user != req.user._id) {
+    res.status(401).send({ done: false, message: "Unauthorized" })
+    return
+  }
+  //deleting record
+  await Todos.findByIdAndDelete(_id)
+  res.status(200).send({ done: true, message: "deleted successfully" })
 }

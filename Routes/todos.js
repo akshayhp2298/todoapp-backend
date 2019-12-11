@@ -6,7 +6,8 @@ const {
   createTodo,
   getAllTodos,
   updateTodo,
-  dateSortedTodos
+  dateSortedTodos,
+  deleteTodo
 } = require("../Controller/TodoController")
 route.get(
   "/todos/get/all",
@@ -32,6 +33,12 @@ route.post(
   "/todos/update",
   passport.authenticate("jwt", { session: false }),
   updateTodo
+)
+
+route.delete(
+  "/todos/delete",
+  passport.authenticate("jwt", { session: false }),
+  deleteTodo
 )
 
 module.exports = route
