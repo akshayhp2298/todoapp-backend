@@ -1,13 +1,16 @@
 const Express = require("express")
 const route = Express.Router()
 const passport = require("passport")
+const cors = require("cors")
+route.use(cors())
 const passportConf = require("../Auth/passport")
 const {
   createTodo,
   getAllTodos,
   updateTodo,
   dateSortedTodos,
-  deleteTodo
+  deleteTodo,
+  deleteManyTodo
 } = require("../Controller/TodoController")
 route.get(
   "/todos/get/all",
@@ -39,6 +42,12 @@ route.delete(
   "/todos/delete",
   passport.authenticate("jwt", { session: false }),
   deleteTodo
+)
+
+route.delete(
+  "/todos/delete/many",
+  passport.authenticate("jwt", { session: false }),
+  deleteManyTodo
 )
 
 module.exports = route

@@ -55,7 +55,7 @@ function validateTodos(user) {
       .min(4)
       .max(6)
       .allow(""),
-    targetDate: Joi.Number().required()
+    targetDate: Joi.number().required()
   }
   return Joi.validate(user, Schema)
 }
