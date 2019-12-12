@@ -5,10 +5,14 @@ module.exports.getAllTodos = async (req, res) => {
   try {
     //get userid from req.user and get all todos of that user
     const range = req.query.range ? JSON.parse(req.query.range) : []
-    console.log(range)
-    const total = await Todos.count()
-    const todos = await Todos.find({ user: req.user._id }).skip(range[0]).limit(range[1]-range[0])
-    console.log(todos)
+    const sort = req.query.sort ? JSON.parse(req.query.sort) : []
+    console.log(req.query)
+    const total = await Todos.countDocuments()
+    const todos = await Todos.find({ user: req.user._id })
+    .sort(sort[0])
+      .skip(range[0])
+      .limit(range[1] - range[0]+1)
+    // console.log(todos)
     res.status(200).send({ done: true, todos, total })
   } catch (Exception) {
     res.status(500).send({ done: false, message: Exception.message })
@@ -96,14 +100,8 @@ module.exports.deleteTodo = async (req, res) => {
     if (!id) {
       res.status(404).send({ done: false, message: "id not found" })
     }
-    const todo = await Todos.findById(id)
-    //check ownership of todo
-    if (todo.user != req.user._id) {
-      res.status(401).send({ done: false, message: "Unauthorized" })
-      return
-    }
     //deleting record
-    await Todos.findByIdAndDelete(_id)
+    await Todos.findOneAndDelete({ _id:id, user: req.user._id })
     res.status(200).send({ done: true, message: "deleted successfully" })
   } catch (Exception) {
     res.send({ done: false, message: Exception.message })

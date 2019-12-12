@@ -61,12 +61,13 @@ module.exports.validateLogin = async (req, res) => {
   try {
     const { email, password } = req.body
     //get user with email
+    console.log(req.body)
     const user = await User.findOne({ email })
     //if use not found return
     if (!user) {
       res
         .status(404)
-        .send({ done: false, message: "email or password not valid" })
+        .send({ done: false, message: "user not found" })
       return
     }
     //check password
