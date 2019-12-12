@@ -52,8 +52,6 @@ function validateTodos(user) {
       .max(255)
       .required(),
     path: Joi.string()
-      .min(4)
-      .max(6)
       .allow(""),
     targetDate: Joi.number().required()
   }
