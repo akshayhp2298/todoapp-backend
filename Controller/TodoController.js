@@ -7,7 +7,7 @@ module.exports.getAllTodos = async (req, res) => {
     const range = req.query.range ? JSON.parse(req.query.range) : []
     const sort = req.query.sort ? JSON.parse(req.query.sort) : []
     console.log(req.query)
-    const total = await Todos.countDocuments()
+    const total = await Todos.countDocuments({user:req.user._id})
     const todos = await Todos.find({ user: req.user._id })
     .sort(sort[0])
       .skip(range[0])
