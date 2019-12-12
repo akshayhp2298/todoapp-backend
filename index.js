@@ -6,9 +6,13 @@ const uri = process.env.URI
 const user = require("./Routes/user")
 const todos = require("./Routes/todos")
 const app = express()
+const morgan = require('morgan')
 const cors = require('cors')
 const routes = [user, todos]
 app.use(cors())
+app.use(morgan('tiny'))
+app.use(express.json())
+
 mongoose
   .connect(uri, { useNewUrlParser: true })
   .then(() => console.log("mongodb connected"))
