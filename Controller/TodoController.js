@@ -26,7 +26,7 @@ module.exports.createTodo = async (req, res) => {
     const { error } = validate(req.body)
     //return if data is not valid
     if (error) {
-      res.send(error)
+      res.send({done:false,message:error})
       return
     }
     //creating an object of todo

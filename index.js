@@ -18,7 +18,7 @@ mongoose
   .then(() => console.log("mongodb connected"))
   .catch(err => console.log(err))
 
-app.get("/ping",(req,res)=>res.send("working"))
+app.get("/ping",(req,res)=>res.send({done:true,message:"working"}))
 
 routes.forEach(route => {
   app.use("/api", route)
