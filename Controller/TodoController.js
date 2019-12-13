@@ -40,12 +40,13 @@ module.exports.createTodo = async (req, res) => {
       return
     }
     //creating an object of todo
-    const { title, desc, status, targetDate } = req.body
+    const { title, desc, status, targetDate, type } = req.body
     const path = req.body.path || ""
     let todo = new Todos({
       title,
       desc,
       status,
+      type,
       path,
       targetDate,
       createdAt: Date.now(),
@@ -81,6 +82,7 @@ module.exports.updateTodo = async (req, res) => {
       title: req.body.title || todo.title,
       desc: req.body.desc || todo.desc,
       status: req.body.status || todo.status,
+      type: req.body.type || todo.type || "",
       path: req.body.path || todo.path || "",
       targetDate: req.body.targetDate || todo.targetDate
     })

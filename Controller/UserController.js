@@ -14,10 +14,12 @@ module.exports.createUser = async (req, res) => {
     //check any user exists or not
     let user = await User.findOne({ email: req.body.email })
     //if user found then return error
-    if (user)
+    if (user) {
       res
         .status(400)
         .send({ isCreated: false, message: "email already exists" })
+      return
+    }
     //create user
     user = new User({
       name: req.body.name,
@@ -65,9 +67,7 @@ module.exports.validateLogin = async (req, res) => {
     const user = await User.findOne({ email })
     //if use not found return
     if (!user) {
-      res
-        .status(404)
-        .send({ done: false, message: "user not found" })
+      res.status(404).send({ done: false, message: "user not found" })
       return
     }
     //check password

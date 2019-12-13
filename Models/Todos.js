@@ -6,6 +6,11 @@ const status = Object.freeze({
   In_progress: "in-progress",
   Todo: "todo"
 })
+const type = Object.freeze({
+  Image: "image",
+  Video: "video"
+})
+
 const todoSchema = new Schema({
   title: {
     type: String,
@@ -21,6 +26,10 @@ const todoSchema = new Schema({
   status: {
     type: String,
     enum: Object.values(status)
+  },
+  type: {
+    type: String,
+    enum: Object.values(type)
   },
   path: {
     type: String
@@ -51,8 +60,8 @@ function validateTodos(user) {
       .min(3)
       .max(255)
       .required(),
-    path: Joi.string()
-      .allow(""),
+    type: Joi.string().valid("image", "video").allow(""),
+    path: Joi.string().allow(""),
     targetDate: Joi.number().required()
   }
   return Joi.validate(user, Schema)
