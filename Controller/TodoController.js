@@ -11,13 +11,13 @@ module.exports.getAllTodos = async (req, res) => {
 
     const total = await Todos.countDocuments({
       user: req.user._id,
-      title: { $regex: `.*${filter.title || ""}.*` },
-      desc: { $regex: `.*${filter.desc || ""}.*` }
+      title: { $regex: `.*${filter.title || ""}.*`, $options: "-i" },
+      desc: { $regex: `.*${filter.desc || ""}.*`, $options: "-i" }
     })
     const todos = await Todos.find({
       user: req.user._id,
-      title: { $regex: `.*${filter.title || ""}.*` },
-      desc: { $regex: `.*${filter.desc || ""}.*` }
+      title: { $regex: `.*${filter.title || ""}.*`, $options: "-i" },
+      desc: { $regex: `.*${filter.desc || ""}.*`, $options: "-i" }
     })
       .sort([[sort[0], sort[1] === "ASC" ? 1 : -1]])
       .skip(range[0])
@@ -125,6 +125,7 @@ module.exports.deleteTodo = async (req, res) => {
 module.exports.deleteManyTodo = async (req, res) => {
   try {
     //get ids from request
+    console.log(req.body)
     const ids = req.body.ids
     if (!ids) {
       res.status(404).send({ done: false, message: "id not found" })

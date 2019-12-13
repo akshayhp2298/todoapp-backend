@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const Joi = require("joi")
 const status = Object.freeze({
   Done: "done",
-  In_progress: "in-progress",
+  In_progress: "in-process",
   Todo: "todo"
 })
 const type = Object.freeze({
