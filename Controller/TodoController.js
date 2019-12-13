@@ -6,12 +6,22 @@ module.exports.getAllTodos = async (req, res) => {
     //get userid from req.user and get all todos of that user
     const range = req.query.range ? JSON.parse(req.query.range) : []
     const sort = req.query.sort ? JSON.parse(req.query.sort) : []
-    console.log(req.query)
-    const total = await Todos.countDocuments({user:req.user._id})
-    const todos = await Todos.find({ user: req.user._id })
-    .sort(sort[0])
+    const filter = req.query.filter ? JSON.parse(req.query.filter) : {}
+    console.log(filter)
+
+    const total = await Todos.countDocuments({
+      user: req.user._id,
+      title: { $regex: `.*${filter.title || ""}.*`},
+      desc: { $regex: `.*${filter.desc || ""}.*`}
+    })
+    const todos = await Todos.find({
+      user: req.user._id,
+      title: { $regex: `.*${filter.title || ""}.*`},
+      desc: { $regex: `.*${filter.desc || ""}.*`}
+    })
+      .sort(sort[0])
       .skip(range[0])
-      .limit(range[1] - range[0]+1)
+      .limit(range[1] - range[0] + 1)
     // console.log(todos)
     res.status(200).send({ done: true, todos, total })
   } catch (Exception) {
@@ -26,7 +36,7 @@ module.exports.createTodo = async (req, res) => {
     const { error } = validate(req.body)
     //return if data is not valid
     if (error) {
-      res.send({done:false,message:error.details[0].message})
+      res.send({ done: false, message: error.details[0].message })
       return
     }
     //creating an object of todo
@@ -74,7 +84,7 @@ module.exports.updateTodo = async (req, res) => {
       path: req.body.path || todo.path || "",
       targetDate: req.body.targetDate || todo.targetDate
     })
-    res.send({ done: true, message: "Updated successfully",todo:todoUpdate })
+    res.send({ done: true, message: "Updated successfully", todo: todoUpdate })
   } catch (Exception) {
     res.send({ done: false, message: Exception.message })
   }
@@ -102,7 +112,7 @@ module.exports.deleteTodo = async (req, res) => {
       res.status(404).send({ done: false, message: "id not found" })
     }
     //deleting record
-    await Todos.findOneAndDelete({ _id:id, user: req.user._id })
+    await Todos.findOneAndDelete({ _id: id, user: req.user._id })
     res.status(200).send({ done: true, message: "deleted successfully" })
   } catch (Exception) {
     res.send({ done: false, message: Exception.message })
@@ -135,11 +145,11 @@ module.exports.getOneTodo = async (req, res) => {
     }
     //delete many with match of id and user
     let todo = await Todos.findById({ _id: id, user: req.user._id })
-    if(todo) {
+    if (todo) {
       res.status(200).send({ done: true, todo })
       return
-    }else {
-      res.status(404).send({ done: false, message:"Not found" })
+    } else {
+      res.status(404).send({ done: false, message: "Not found" })
     }
   } catch (Exception) {
     res.send({ done: false, message: Exception.message })
