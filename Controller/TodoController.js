@@ -11,15 +11,15 @@ module.exports.getAllTodos = async (req, res) => {
 
     const total = await Todos.countDocuments({
       user: req.user._id,
-      title: { $regex: `.*${filter.title || ""}.*`},
-      desc: { $regex: `.*${filter.desc || ""}.*`}
+      title: { $regex: `.*${filter.title || ""}.*` },
+      desc: { $regex: `.*${filter.desc || ""}.*` }
     })
     const todos = await Todos.find({
       user: req.user._id,
-      title: { $regex: `.*${filter.title || ""}.*`},
-      desc: { $regex: `.*${filter.desc || ""}.*`}
+      title: { $regex: `.*${filter.title || ""}.*` },
+      desc: { $regex: `.*${filter.desc || ""}.*` }
     })
-      .sort(sort[0])
+      .sort([[sort[0], sort[1] === "ASC" ? 1 : -1]])
       .skip(range[0])
       .limit(range[1] - range[0] + 1)
     // console.log(todos)
