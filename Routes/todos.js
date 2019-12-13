@@ -8,12 +8,19 @@ const {
   updateTodo,
   dateSortedTodos,
   deleteTodo,
-  deleteManyTodo
+  deleteManyTodo,
+  getOneTodo
 } = require("../Controller/TodoController")
 route.get(
   "/todos/get/all",
   passport.authenticate("jwt", { session: false }),
   getAllTodos
+)
+
+route.get(
+  "/todos/get/one/:id",
+  passport.authenticate("jwt", { session: false }),
+  getOneTodo
 )
 
 route.get(
@@ -30,8 +37,8 @@ route.post(
   createTodo
 )
 
-route.post(
-  "/todos/update",
+route.put(
+  "/todos/update/:id",
   passport.authenticate("jwt", { session: false }),
   updateTodo
 )
