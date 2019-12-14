@@ -6,7 +6,6 @@ const {
   createTodo,
   getAllTodos,
   updateTodo,
-  dateSortedTodos,
   deleteTodo,
   deleteManyTodo,
   getOneTodo
@@ -22,14 +21,6 @@ route.get(
   passport.authenticate("jwt", { session: false }),
   getOneTodo
 )
-
-route.get(
-  "/todos/get/all/sort/by/date",
-  passport.authenticate("jwt", { session: false }),
-  dateSortedTodos
-)
-
-route.get("/todos/get/by/one", passport.authenticate("jwt", { session: false }))
 
 route.post(
   "/todos/create",

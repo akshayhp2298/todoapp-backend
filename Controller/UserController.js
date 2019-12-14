@@ -16,7 +16,7 @@ module.exports.createUser = async (req, res) => {
     //if user found then return error
     if (user) {
       res
-        .status(400)
+        .status(409)
         .send({ isCreated: false, message: "email already exists" })
       return
     }
@@ -49,8 +49,8 @@ module.exports.getSelf = async (req, res) => {
       return
     }
     //create user object
-    const { name, email, gender } = req.user
-    const user = { name, email, gender }
+    const { _id, name, email, gender } = req.user
+    const user = { _id, name, email, gender }
     //send response with user
     res.status(200).send({ done: true, user })
   } catch (Exception) {
@@ -63,7 +63,6 @@ module.exports.validateLogin = async (req, res) => {
   try {
     const { email, password } = req.body
     //get user with email
-    console.log(req.body)
     const user = await User.findOne({ email })
     //if use not found return
     if (!user) {

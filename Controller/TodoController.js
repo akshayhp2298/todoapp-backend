@@ -7,8 +7,6 @@ module.exports.getAllTodos = async (req, res) => {
     const range = req.query.range ? JSON.parse(req.query.range) : []
     const sort = req.query.sort ? JSON.parse(req.query.sort) : []
     const filter = req.query.filter ? JSON.parse(req.query.filter) : {}
-    console.log(filter)
-
     const total = await Todos.countDocuments({
       user: req.user._id,
       title: { $regex: `.*${filter.title || ""}.*`, $options: "-i" },
@@ -22,7 +20,6 @@ module.exports.getAllTodos = async (req, res) => {
       .sort([[sort[0], sort[1] === "ASC" ? 1 : -1]])
       .skip(range[0])
       .limit(range[1] - range[0] + 1)
-    // console.log(todos)
     res.status(200).send({ done: true, todos, total })
   } catch (Exception) {
     res.status(500).send({ done: false, message: Exception.message })
@@ -32,15 +29,16 @@ module.exports.getAllTodos = async (req, res) => {
 //create a record of todo
 module.exports.createTodo = async (req, res) => {
   try {
-    //validate data
+    // validate data
     const { error } = validate(req.body)
     //return if data is not valid
     if (error) {
-      res.send({ done: false, message: error.details[0].message })
+      res.status(400).send({ done: false, message: error.details[0].message })
       return
     }
     //creating an object of todo
-    const { title, desc, status, targetDate, type } = req.body
+    const { title, desc, status, targetDate } = req.body
+    const type = req.body.type || ""
     const path = req.body.path || ""
     let todo = new Todos({
       title,
@@ -56,7 +54,8 @@ module.exports.createTodo = async (req, res) => {
     await todo.save()
     res.status(200).send({ done: true, todo })
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    console.log(Exception.message)
+    res.status(500).send({ done: false, message: Exception.message })
   }
 }
 
@@ -71,7 +70,6 @@ module.exports.updateTodo = async (req, res) => {
     }
     //check ownership of todo
     if (user != req.user._id) {
-      console.log(user, req.user._id)
       res.status(401).send({ done: false, message: "Unauthorized" })
       return
     }
@@ -92,19 +90,6 @@ module.exports.updateTodo = async (req, res) => {
   }
 }
 
-//get todos with sorted date
-module.exports.dateSortedTodos = async (req, res) => {
-  try {
-    //get userid from req.user and get all sorted todos of that user
-    const todos = await Todos.find({ user: req.user._id }).sort({
-      targetDate: "ascending"
-    })
-    res.status(200).send({ done: true, todos })
-  } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
-  }
-}
-
 //delete todo
 module.exports.deleteTodo = async (req, res) => {
   try {
@@ -112,6 +97,7 @@ module.exports.deleteTodo = async (req, res) => {
     const id = req.body._id
     if (!id) {
       res.status(404).send({ done: false, message: "id not found" })
+      return
     }
     //deleting record
     await Todos.findOneAndDelete({ _id: id, user: req.user._id })
@@ -125,7 +111,6 @@ module.exports.deleteTodo = async (req, res) => {
 module.exports.deleteManyTodo = async (req, res) => {
   try {
     //get ids from request
-    console.log(req.body)
     const ids = req.body.ids
     if (!ids) {
       res.status(404).send({ done: false, message: "id not found" })

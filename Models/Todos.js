@@ -8,7 +8,8 @@ const status = Object.freeze({
 })
 const type = Object.freeze({
   Image: "image",
-  Video: "video"
+  Video: "video",
+  "":""
 })
 
 const todoSchema = new Schema({

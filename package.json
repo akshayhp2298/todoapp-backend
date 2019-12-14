@@ -4,8 +4,8 @@
   "description": "Back-end APIs for Todo manage App",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "cross-env NODE_ENV=test jest --testTimeout=10000"
   },
   "author": "A.H.Prajapati",
   "license": "ISC",
@@ -19,6 +19,18 @@
     "mongoose": "^5.8.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "sequelize-cli": "^5.5.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "supertest": "^4.0.2"
   }
 }

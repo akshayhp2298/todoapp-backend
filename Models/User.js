@@ -22,7 +22,6 @@ const userSchema = new Schema({
 })
 userSchema.methods.isValidPassword = async function(pass) {
   try {
-    console.log(pass, this.email)
     let status
     await bcrypt.compare(pass, this.password).then(function(res) {
       if (res) {
