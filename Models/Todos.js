@@ -53,13 +53,9 @@ function validateTodos(user) {
       .max(50)
       .required(),
     desc: Joi.string()
-      .min(5)
-      .max(255)
       .required(),
     status: Joi.string()
       .valid("todo", "done", "in-process")
-      .min(3)
-      .max(255)
       .required(),
     type: Joi.string().valid("image", "video").allow(""),
     path: Joi.string().allow(""),
