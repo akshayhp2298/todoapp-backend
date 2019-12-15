@@ -7,10 +7,12 @@ module.exports.createUser = async (req, res) => {
     //check data for any errors
     const { error } = validate(req.body)
     //return error
-    if (error)
+    if (error) {
       res
         .status(400)
         .send({ isCreated: false, message: error.details[0].message })
+      return
+    }
     //check any user exists or not
     let user = await User.findOne({ email: req.body.email })
     //if user found then return error
@@ -36,18 +38,13 @@ module.exports.createUser = async (req, res) => {
     //return token
     res.status(200).send({ done: true, token })
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    res.send(400).send({ done: false, message: Exception.message })
   }
 }
 
 //get self user data
 module.exports.getSelf = async (req, res) => {
   try {
-    //check if user is there in req or not (user added from passport Auth check via token)
-    if (!req.user) {
-      res.send({ done: false, message: "something went wrong" })
-      return
-    }
     //create user object
     const { _id, name, email, gender } = req.user
     const user = { _id, name, email, gender }
@@ -81,5 +78,16 @@ module.exports.validateLogin = async (req, res) => {
         .send({ done: false, message: "email or password not valid" })
   } catch (Exception) {
     res.send({ done: false, message: Exception.message })
+  }
+}
+
+//delete user
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const email = req.body.email
+    await User.findOneAndDelete(email)
+    res.send({ done: true, message: "User deleted" })
+  } catch (Exception) {
+    console.log(Exception.message)
   }
 }

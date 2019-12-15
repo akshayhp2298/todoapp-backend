@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="36" failures="0" time="13.936">
+  <testsuite name="tests/routes.test.js" errors="0" failures="0" skipped="0" timestamp="2019-12-15T12:08:33" time="2.516" tests="1">
+    <testcase classname="ping endpoint should check for connection to server" name="ping endpoint should check for connection to server" time="0.049">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/user.route.test.js" errors="0" failures="0" skipped="0" timestamp="2019-12-15T12:08:33" time="7.159" tests="10">
+    <testcase classname="ping endpoint should return 400 for invalid create user data" name="ping endpoint should return 400 for invalid create user data" time="0.089">
+    </testcase>
+    <testcase classname="ping endpoint should create user" name="ping endpoint should create user" time="2.487">
+    </testcase>
+    <testcase classname="ping endpoint should return email already exists" name="ping endpoint should return email already exists" time="0.266">
+    </testcase>
+    <testcase classname="ping endpoint should return user not found" name="ping endpoint should return user not found" time="0.253">
+    </testcase>
+    <testcase classname="ping endpoint should return email or password invalid" name="ping endpoint should return email or password invalid" time="0.354">
+    </testcase>
+    <testcase classname="ping endpoint should return token" name="ping endpoint should return token" time="0.353">
+    </testcase>
+    <testcase classname="ping endpoint should return unauthorized" name="ping endpoint should return unauthorized" time="0.006">
+    </testcase>
+    <testcase classname="ping endpoint should return unauthorized" name="ping endpoint should return unauthorized" time="0.004">
+    </testcase>
+    <testcase classname="ping endpoint should return user" name="ping endpoint should return user" time="0.27">
+    </testcase>
+    <testcase classname="ping endpoint should delete user" name="ping endpoint should delete user" time="0.252">
+    </testcase>
+  </testsuite>
+  <testsuite name="tests/todo.routes.test.js" errors="0" failures="0" skipped="0" timestamp="2019-12-15T12:08:33" time="13.488" tests="25">
+    <testcase classname="ping endpoint should create user" name="ping endpoint should create user" time="2.473">
+    </testcase>
+    <testcase classname="ping endpoint should return token" name="ping endpoint should return token" time="0.354">
+    </testcase>
+    <testcase classname="ping endpoint should return unauthorized" name="ping endpoint should return unauthorized" time="0.008">
+    </testcase>
+    <testcase classname="ping endpoint should return invalid date of todo" name="ping endpoint should return invalid date of todo" time="0.264">
+    </testcase>
+    <testcase classname="ping endpoint should create todo" name="ping endpoint should create todo" time="0.503">
+    </testcase>
+    <testcase classname="ping endpoint should create todo with image path" name="ping endpoint should create todo with image path" time="0.528">
+    </testcase>
+    <testcase classname="ping endpoint should create todo with video path" name="ping endpoint should create todo with video path" time="0.517">
+    </testcase>
+    <testcase classname="ping endpoint should get all todo" name="ping endpoint should get all todo" time="0.787">
+    </testcase>
+    <testcase classname="ping endpoint should unauthorized for one todo" name="ping endpoint should unauthorized for one todo" time="0.003">
+    </testcase>
+    <testcase classname="ping endpoint should return 404 for get one todo without id" name="ping endpoint should return 404 for get one todo without id" time="0.004">
+    </testcase>
+    <testcase classname="ping endpoint should return bad request invalid id" name="ping endpoint should return bad request invalid id" time="0.274">
+    </testcase>
+    <testcase classname="ping endpoint should return not found for get one todo" name="ping endpoint should return not found for get one todo" time="0.496">
+    </testcase>
+    <testcase classname="ping endpoint should get one todo" name="ping endpoint should get one todo" time="0.5">
+    </testcase>
+    <testcase classname="ping endpoint should return unauthorized for update todo" name="ping endpoint should return unauthorized for update todo" time="0.007">
+    </testcase>
+    <testcase classname="ping endpoint should return bad request for update todo" name="ping endpoint should return bad request for update todo" time="0.489">
+    </testcase>
+    <testcase classname="ping endpoint should return 404 id not found for update todo" name="ping endpoint should return 404 id not found for update todo" time="0.262">
+    </testcase>
+    <testcase classname="ping endpoint should update todo" name="ping endpoint should update todo" time="0.792">
+    </testcase>
+    <testcase classname="ping endpoint should return unauthorized for delete todo" name="ping endpoint should return unauthorized for delete todo" time="0.006">
+    </testcase>
+    <testcase classname="ping endpoint should return id not found for delete todo" name="ping endpoint should return id not found for delete todo" time="0.263">
+    </testcase>
+    <testcase classname="ping endpoint should return bad request for delete todo" name="ping endpoint should return bad request for delete todo" time="0.258">
+    </testcase>
+    <testcase classname="ping endpoint should delete todo" name="ping endpoint should delete todo" time="0.52">
+    </testcase>
+    <testcase classname="ping endpoint should return 404 for delete many todos" name="ping endpoint should return 404 for delete many todos" time="0.26">
+    </testcase>
+    <testcase classname="ping endpoint should return bad request for delete many todo" name="ping endpoint should return bad request for delete many todo" time="0.262">
+    </testcase>
+    <testcase classname="ping endpoint should delete many todos" name="ping endpoint should delete many todos" time="0.518">
+    </testcase>
+    <testcase classname="ping endpoint should delete user" name="ping endpoint should delete user" time="0.26">
+    </testcase>
+  </testsuite>
+</testsuites>

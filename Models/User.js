@@ -34,9 +34,6 @@ userSchema.methods.isValidPassword = async function(pass) {
   }
 }
 
-userSchema.methods.getName = function() {
-  return this.name
-}
 userSchema.methods.generateToken = function() {
   return jwt.sign({ user: this }, process.env.secretKey)
 }

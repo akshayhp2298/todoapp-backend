@@ -54,8 +54,7 @@ module.exports.createTodo = async (req, res) => {
     await todo.save()
     res.status(200).send({ done: true, todo })
   } catch (Exception) {
-    console.log(Exception.message)
-    res.status(500).send({ done: false, message: Exception.message })
+    res.status(400).send({ done: false, message: Exception.message })
   }
 }
 
@@ -65,8 +64,9 @@ module.exports.updateTodo = async (req, res) => {
     //checking for id in request body
     const _id = req.params.id
     const { user } = req.body
-    if (!_id && !user) {
+    if (!_id || !user) {
       res.status(404).send({ done: false, message: "Id not found" })
+      return
     }
     //check ownership of todo
     if (user != req.user._id) {
@@ -86,7 +86,7 @@ module.exports.updateTodo = async (req, res) => {
     })
     res.send({ done: true, message: "Updated successfully", todo: todoUpdate })
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    res.status(400).send({ done: false, message: Exception.message })
   }
 }
 
@@ -103,7 +103,7 @@ module.exports.deleteTodo = async (req, res) => {
     await Todos.findOneAndDelete({ _id: id, user: req.user._id })
     res.status(200).send({ done: true, message: "deleted successfully" })
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    res.status(400).send({ done: false, message: Exception.message })
   }
 }
 
@@ -114,12 +114,13 @@ module.exports.deleteManyTodo = async (req, res) => {
     const ids = req.body.ids
     if (!ids) {
       res.status(404).send({ done: false, message: "id not found" })
+      return
     }
     //delete many with match of id and user
     await Todos.deleteMany({ _id: ids, user: req.user._id })
     res.status(200).send({ done: true, message: "deleted successfully" })
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    res.status(400).send({ done: false, message: Exception.message })
   }
 }
 
@@ -128,18 +129,17 @@ module.exports.getOneTodo = async (req, res) => {
   try {
     //get ids from request
     const id = req.params.id
-    if (!id) {
-      res.status(404).send({ done: false, message: "id not found" })
-    }
     //delete many with match of id and user
-    let todo = await Todos.findById({ _id: id, user: req.user._id })
+    let todo = await Todos.findOne({ _id: id, user: req.user._id })
     if (todo) {
       res.status(200).send({ done: true, todo })
       return
     } else {
       res.status(404).send({ done: false, message: "Not found" })
+      return
     }
   } catch (Exception) {
-    res.send({ done: false, message: Exception.message })
+    res.status(400).send({ done: false, message: Exception.message })
+    return
   }
 }

@@ -6,7 +6,8 @@ const passportConf = require("../Auth/passport")
 const {
   createUser,
   getSelf,
-  validateLogin
+  validateLogin,
+  deleteUser
 } = require("../Controller/UserController")
 route.post("/user/create", createUser)
 
@@ -18,4 +19,5 @@ route.get(
 
 route.post("/user/login", validateLogin)
 
+route.delete("/user/delete", deleteUser)
 module.exports = route
