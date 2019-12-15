@@ -2,7 +2,9 @@ const request = require("supertest")
 const app = require("../server")
 describe("ping endpoint", () => {
   const user = {
-    email: `${Math.random().toString(24).slice(2)}@test.com`,
+    email: `${Math.random()
+      .toString(24)
+      .slice(2)}@test.com`,
     password: "test",
     name: "test2 test2"
   }
@@ -214,10 +216,10 @@ describe("ping endpoint", () => {
     expect(res.body.done).toBe(true)
     expect(res.body.message).toBe("deleted successfully")
   })
-  it("should delete user",async()=>{
+  it("should delete user", async () => {
     const res = await request(app)
-    .delete("/api/user/delete")
-    .send({email:user.email})
+      .delete("/api/user/delete")
+      .send({ email: user.email })
     expect(res.statusCode).toBe(200)
     expect(res.body.done).toBe(true)
     expect(res.body.message).toBe("User deleted")

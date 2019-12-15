@@ -85,7 +85,7 @@ module.exports.validateLogin = async (req, res) => {
 module.exports.deleteUser = async (req, res) => {
   try {
     const email = req.body.email
-    await User.findOneAndDelete(email)
+    await User.findOneAndDelete({email})
     res.send({ done: true, message: "User deleted" })
   } catch (Exception) {
     console.log(Exception.message)
